@@ -1,0 +1,6 @@
+.ipynb_checkpoints
+__pycache__
+.ipynb
+# vscode settings include local specific dirs related to anaconda
+.vscode
+.DS_Store
