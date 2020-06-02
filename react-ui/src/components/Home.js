@@ -13,9 +13,10 @@ class Home extends React.Component {
                     width={350}
                     height={300}
                     margin={24}
+                    key={index}
                     >
-                        <Heading paddingY="40px" size={1000}>{card}</Heading>
-                     </Pane>)
+                        <Heading paddingY="40px" size={900}>{card}</Heading>
+                    </Pane>)
                 )}
             </Pane>
         );
