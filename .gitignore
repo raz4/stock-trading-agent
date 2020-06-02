@@ -4,3 +4,4 @@ __pycache__
 # vscode settings include local specific dirs related to anaconda
 .vscode
 .DS_Store
+react-ui/node_modules
