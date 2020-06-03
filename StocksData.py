@@ -9,8 +9,8 @@ def read_csv(file_name, sep=',', filter_data=True, fix_open_price=False):
     with open(file_name, 'rt') as fd:
         reader = csv.reader(fd, delimiter=sep)
         h = next(reader)
-        indices = [h.index(s) for s in ('Open','High','Low','Close','Volume')]
-        date_index = h.index('Date')
+        indices = [h.index(s) for s in ('open','high','low','close','volume')]
+        date_index = h.index('date')
         d, o, h, l, c, v = [], [], [], [], [], []
         for row in reader:
             vals = list(map(float, [row[idx].replace(',', '') for idx in indices]))

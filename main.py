@@ -25,7 +25,7 @@ def test(testing_data, model_file, result):
     obs = stocks_test_env.reset()
 
     # set vars for recording results
-    result_df = pandas.DataFrame([], columns=['date', 'open_price', 'action', 'reward'])
+    result_df = pandas.DataFrame([], columns=['date', 'open', 'action', 'reward'])
     net_reward = 0.0
 
     while True:
@@ -33,7 +33,7 @@ def test(testing_data, model_file, result):
         obs, reward, done, info = stocks_test_env.step(action)
 
         # print and record the offset, action taken, reward, opening price
-        df = pandas.DataFrame([[stock_test_data.date[int(info["offset"])], stock_test_data.open[int(info["offset"])], Actions(action).name, reward]], columns=['date', 'open_price', 'action', 'reward'])
+        df = pandas.DataFrame([[stock_test_data.date[int(info["offset"])], stock_test_data.open[int(info["offset"])], Actions(action).name, reward]], columns=['date', 'open', 'action', 'reward'])
         print(df)
         result_df = result_df.append(df, ignore_index=True)
         net_reward += reward
