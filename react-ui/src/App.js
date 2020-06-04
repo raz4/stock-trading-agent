@@ -16,20 +16,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Router>
+      <Router>
+        <div className="App">
           <Header />
-
           <Switch>
-            <Route exact={true} path="/">
-              <Home />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
+            <Route path="/about" component={About} />
+            <Route path="/" component={Home} />
           </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
