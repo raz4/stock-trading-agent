@@ -11,6 +11,7 @@ RUN pip install -r requirements.txt
 # copy app specific dirs and files
 ADD datasets ./datasets
 ADD models ./models
-COPY main.py StocksData.py StocksEnv.py ./
+ADD results ./results
+COPY main.py StocksData.py StocksEnv.py CloudStorageClient.py ./
 
 ENTRYPOINT [ "python", "main.py" ]
