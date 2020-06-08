@@ -5,3 +5,6 @@ __pycache__
 .vscode
 .DS_Store
 react-ui/node_modules
+
+# files relevant to local development
+local
