@@ -1,5 +1,5 @@
-tensorflow==1.14.0
-stable-baselines[mpi]
+tensorflow==2.4.1
+ray[rllib]
 pandas==1.0.3
 seaborn==0.10.1
 numpy==1.18.2
