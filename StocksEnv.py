@@ -14,15 +14,15 @@ class StocksEnv(gym.Env):
     """Custom Environment that follows gym interface"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, prices, bars_count, commission_perc=DEFAULT_COMMISSION_PERC, reset_on_close=True):
+    def __init__(self, config):
         # Actions: Skip, Buy, Close
         self.action_space = gym.spaces.Discrete(n=len(Actions))
         # Observation: volume, high, close, low, open of past x "bars", have position or not, potential profit if sold
-        self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(4*bars_count+1+1,), dtype=np.float32)
-        self.bars_count = bars_count
-        self._prices = prices
-        self.commission_perc = commission_perc
-        self.reset_on_close = reset_on_close
+        self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(4*config["bars_count"]+1+1,), dtype=np.float32)
+        self.bars_count = config["bars_count"]
+        self._prices = config["prices"]
+        self.commission_perc = config["commission_perc"]
+        self.reset_on_close = config["reset_on_close"]
 
     def reset(self):
         self.have_position = False

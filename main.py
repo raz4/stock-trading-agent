@@ -40,31 +40,44 @@ if __name__ == "__main__":
         result = "./results/" + model_file.split('/')[-1].split(".zip")[0] + "_" + str(time.time()).replace('.', '') + ".csv"
 
     ray.init()
+
+    stocks_data =  StocksData.read_csv(training_data)
+    env_config = {
+        "prices": stocks_data,
+        "bars_count": DEFAULT_BARS_COUNT,
+        "reset_on_close": False,
+        "commission_perc": 0.01
+    }
     config = {
         "lr": 0.01,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
         "num_gpus": 0,
         "num_workers": 0,
         "framework": "tf",
-        "env": "stocks_env"
+        "env": "stocks_env",
+        "env_config": env_config
     }
 
     if args.training_data:
-        stocks_data =  StocksData.read_csv(training_data)
-        register_env("stocks_env", lambda config: StocksEnv(stocks_data, bars_count=DEFAULT_BARS_COUNT, reset_on_close=False, commission_perc=0.01))
+        register_env("stocks_env", lambda config: StocksEnv(config))
         stop = {
-            # "episode_reward_mean": args.stop_reward,
             "timesteps_total": args.training_timesteps,
         }
-        ray.tune.run("PPO", stop=stop, config=config, verbose=1, checkpoint_freq=25000, checkpoint_at_end=True)
+        ray.tune.run(
+            "PPO",
+            stop=stop,
+            config=config,
+            verbose=1,
+            checkpoint_freq=25, # checkpoint every 25,000 steps
+            local_dir="./ray_results"
+        )
     
     if args.testing_data:
-        stocks_data =  StocksData.read_csv(testing_data)
-        register_env("stocks_env", lambda config: StocksEnv(stocks_data, bars_count=DEFAULT_BARS_COUNT, reset_on_close=False, commission_perc=0.01))
+        register_env("stocks_env", lambda config: StocksEnv(config))
         agent = PPOTrainer(config, env="stocks_env")
         agent.restore(args.ckpt_path)
 
-        stocks_test_env = StocksEnv(stocks_data, bars_count=DEFAULT_BARS_COUNT, reset_on_close=False, commission_perc=0.01)
+        stocks_test_env = StocksEnv(env_config)
         obs = stocks_test_env.reset()
         
         # set vars for recording results
